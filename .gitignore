@@ -1,12 +1,22 @@
-config.py
+# Python virtual environment
+venv/
+
+# Python bytecode files
 __pycache__/
-instance/
 *.pyc
 *.pyo
 *.pyd
-.Python
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+
+# Database file
+app/conversations.db
+
+# Environment variables
+config.py
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Other
+*.log
+*.tmp

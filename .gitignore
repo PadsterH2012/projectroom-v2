@@ -1,0 +1,17 @@
+# dependencies
+/venv
+
+# IDE
+.idea
+
+# misc
+*.log
+*.db
+*.pyc
+__pycache__/
+
+# OS generated files
+.DS_Store
+
+# flask user uploaded files
+uploads/

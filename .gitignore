@@ -14,4 +14,4 @@ __pycache__/
 .DS_Store
 
 # flask user uploaded files
-uploads/
+uploads/*.pyc\n__pycache__/\ndata/\nlogs/

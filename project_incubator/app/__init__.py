@@ -5,8 +5,10 @@ db = SQLAlchemy()
 
 def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_object('config.Config')
-    app.config.from_pyfile('config.py')
+    if config_name == 'testing':
+        app.config.from_object('config.TestingConfig')
+    else:
+        app.config.from_object('config.Config')
 
     db.init_app(app)
     

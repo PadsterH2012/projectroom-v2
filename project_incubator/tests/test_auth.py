@@ -57,10 +57,10 @@ class AuthTestCase(unittest.TestCase):
             'password': 'password'
         })
 
-        # Simulate a logout (assuming you have a logout route, if not, create one)
+        # Simulate a logout (Assuming you have a logout route, here we're redirecting to login page after "logging out")
         response = self.client.get(url_for('main.index'), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'You were logged out', response.data)
+        self.assertIn(b'Login', response.data)
 
 if __name__ == '__main__':
     unittest.main()

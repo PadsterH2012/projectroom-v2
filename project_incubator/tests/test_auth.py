@@ -15,12 +15,52 @@ class AuthTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def test_register_login_logout(self):
-        with self.app.test_request_context():
-            response = self.client.post(url_for('main.register'), data={
-                'username': 'testuser',
-                'email': 'test@example.com',
-                'password': 'password',
-                'password2': 'password'
-            })
-            self.assertEqual(response.status_code, 200)
+    def test_register(self):
+        response = self.client.post(url_for('main.register'), data={
+            'username': 'testuser',
+            'email': 'test@example.com',
+            'password': 'password',
+            'confirm_password': 'password'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Registration successful!', response.data)
+
+    def test_login(self):
+        # First, register the user
+        self.client.post(url_for('main.register'), data={
+            'username': 'testuser',
+            'email': 'test@example.com',
+            'password': 'password',
+            'confirm_password': 'password'
+        })
+
+        # Then, log in with the registered user
+        response = self.client.post(url_for('main.login'), data={
+            'email': 'test@example.com',
+            'password': 'password'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Login successful!', response.data)
+
+    def test_logout(self):
+        # First, register the user
+        self.client.post(url_for('main.register'), data={
+            'username': 'testuser',
+            'email': 'test@example.com',
+            'password': 'password',
+            'confirm_password': 'password'
+        })
+
+        # Then, log in with the registered user
+        self.client.post(url_for('main.login'), data={
+            'email': 'test@example.com',
+            'password': 'password'
+        })
+
+        # Logout is usually a GET request
+        response = self.client.get(url_for('main.index'))
+        self.assertEqual(response.status_code, 302)  # Assuming redirect after logout
+        self.assertIn(b'You were logged out', response.data)
+
+if __name__ == '__main__':
+    unittest.main()

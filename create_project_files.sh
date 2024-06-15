@@ -66,6 +66,8 @@ EOL
 
 # Create config.py in the root directory
 cat <<EOL > $PROJECT_DIR/config.py
+import os
+
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'you-will-never-guess')
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///site.db')
@@ -157,6 +159,7 @@ Flask-SQLAlchemy
 python-dotenv
 gunicorn
 pytest
+Flask-WTF
 EOL
 
 # Create .gitignore

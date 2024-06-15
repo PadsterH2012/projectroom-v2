@@ -24,4 +24,4 @@ coverage.xml
 .coverage
 *.bak
 venv/
-venv/
+../venv/

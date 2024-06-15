@@ -14,10 +14,13 @@ mkdir -p $PROJECT_DIR/tests
 cat <<EOL > $PROJECT_DIR/app/__init__.py
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
+import os
 
 db = SQLAlchemy()
 
 def create_app(config_name):
+    load_dotenv()
     app = Flask(__name__, instance_relative_config=True)
     if config_name == 'testing':
         app.config.from_object('config.TestingConfig')
@@ -64,8 +67,8 @@ EOL
 # Create config.py in the root directory
 cat <<EOL > $PROJECT_DIR/config.py
 class Config:
-    SECRET_KEY = 'you-will-never-guess'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'
+    SECRET_KEY = os.getenv('SECRET_KEY', 'you-will-never-guess')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///site.db')
 
 class TestingConfig(Config):
     TESTING = True
@@ -176,7 +179,7 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "run:app"]
 EOL
 
 # Create Jenkinsfile
@@ -187,12 +190,12 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'python3 -m venv venv'
-                sh './venv/bin/pip install -r requirements.txt'
+                sh './venv/bin/pip install -r project_incubator/requirements.txt'
             }
         }
         stage('Test') {
             steps {
-                sh './venv/bin/python3 -m unittest discover tests'
+                sh './venv/bin/python3 -m pytest project_incubator/tests'
             }
         }
     }
@@ -204,17 +207,20 @@ touch $PROJECT_DIR/app/static/__init__.py
 touch $PROJECT_DIR/app/templates/__init__.py
 touch $PROJECT_DIR/tests/__init__.py
 
+# Change to the project directory
+cd $PROJECT_DIR
+
 # Create and activate virtual environment
-python3 -m venv $PROJECT_DIR/venv
-source $PROJECT_DIR/venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 
 # Check if virtual environment is created successfully
-if [ ! -f "$PROJECT_DIR/venv/bin/python3" ]; then
+if [ ! -f "venv/bin/python3" ]; then
     echo "Virtual environment was not created successfully."
     exit 1
 fi
 
 # Install dependencies
-pip install -r $PROJECT_DIR/requirements.txt
+pip install -r requirements.txt
 
 echo "Project structure created successfully!"

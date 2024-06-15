@@ -18,7 +18,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh './venv/bin/python -m unittest discover project_incubator/tests'
+                sh 'export PYTHONPATH=$PYTHONPATH:$(pwd)/project_incubator && ./venv/bin/python -m unittest discover project_incubator/tests'
             }
         }
 

@@ -4,12 +4,12 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'python3 -m venv venv'
-                sh './venv/bin/pip install -r requirements.txt'
+                sh './venv/bin/pip install -r project_incubator/requirements.txt'
             }
         }
         stage('Test') {
             steps {
-                sh './venv/bin/python3 -m unittest discover tests'
+                sh './venv/bin/python3 -m pytest project_incubator/tests'
             }
         }
     }

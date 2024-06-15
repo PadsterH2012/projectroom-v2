@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "run:app"]

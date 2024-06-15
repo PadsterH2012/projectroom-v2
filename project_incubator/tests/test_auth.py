@@ -9,6 +9,7 @@ class AuthTestCase(unittest.TestCase):
         self.app.config['TESTING'] = True
         self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
         self.client = self.app.test_client()
+
         with self.app.app_context():
             db.create_all()
 
@@ -18,7 +19,7 @@ class AuthTestCase(unittest.TestCase):
             db.drop_all()
 
     def test_register_login_logout(self):
-        with self.client:
+        with self.app.app_context():
             # Register
             response = self.client.post(url_for('main.register'), data={
                 'username': 'testuser',

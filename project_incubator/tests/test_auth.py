@@ -21,7 +21,7 @@ class AuthTestCase(unittest.TestCase):
             'email': 'test@example.com',
             'password': 'password',
             'confirm_password': 'password'
-        })
+        }, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Registration successful!', response.data)
 
@@ -38,7 +38,7 @@ class AuthTestCase(unittest.TestCase):
         response = self.client.post(url_for('main.login'), data={
             'email': 'test@example.com',
             'password': 'password'
-        })
+        }, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Login successful!', response.data)
 
@@ -57,9 +57,9 @@ class AuthTestCase(unittest.TestCase):
             'password': 'password'
         })
 
-        # Logout is usually a GET request
-        response = self.client.get(url_for('main.index'))
-        self.assertEqual(response.status_code, 302)  # Assuming redirect after logout
+        # Simulate a logout (assuming you have a logout route, if not, create one)
+        response = self.client.get(url_for('main.index'), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
         self.assertIn(b'You were logged out', response.data)
 
 if __name__ == '__main__':

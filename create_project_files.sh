@@ -6,7 +6,6 @@ mkdir -p project_incubator/app/static
 mkdir -p project_incubator/app/templates
 mkdir -p project_incubator/instance
 mkdir -p project_incubator/tests
-mkdir -p project_incubator/venv
 
 # Create __init__.py for app
 cat <<EOL > project_incubator/app/__init__.py
@@ -196,5 +195,12 @@ EOL
 touch project_incubator/app/static/__init__.py
 touch project_incubator/app/templates/__init__.py
 touch project_incubator/tests/__init__.py
+
+# Create and activate virtual environment
+python3 -m venv project_incubator/venv
+source project_incubator/venv/bin/activate
+
+# Install dependencies
+pip install -r project_incubator/requirements.txt
 
 echo "Project structure created successfully!"

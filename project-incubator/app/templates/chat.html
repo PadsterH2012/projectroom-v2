@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Chat for Project: {{ project.name }}</h1>
+    <div id="chat" class="mb-4" style="height: 400px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;">
+        <!-- Messages will be displayed here -->
+    </div>
+    <form id="chat-form">
+        <div class="form-group">
+            <input type="text" class="form-control" id="message" placeholder="Type a message" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script>
+    const socket = io();
+    const chatForm = document.getElementById('chat-form');
+    const messageInput = document.getElementById('message');
+    const chat = document.getElementById('chat');
+    const projectId = {{ project.id }};
+
+    socket.emit('join', { project_id: projectId });
+
+    chatForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const message = messageInput.value;
+        socket.emit('send_message', { message: message, project_id: projectId });
+        messageInput.value = '';
+    });
+
+    socket.on('receive_message', function(data) {
+        if (data.project_id === projectId) {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = data.message;
+            chat.appendChild(messageElement);
+            chat.scrollTop = chat.scrollHeight;
+        }
+    });
+
+    window.onbeforeunload = function() {
+        socket.emit('leave', { project_id: projectId });
+    };
+</script>
+{% endblock %}

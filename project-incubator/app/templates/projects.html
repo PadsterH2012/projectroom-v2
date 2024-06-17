@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Your Projects</h1>
+    <ul class="list-group">
+        {% for project in projects %}
+            <li class="list-group-item">
+                <a href="{{ url_for('routes.project', project_id=project.id) }}">{{ project.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('routes.add_project') }}" class="btn btn-primary mt-3">Add New Project</a>
+</div>
+{% endblock %}

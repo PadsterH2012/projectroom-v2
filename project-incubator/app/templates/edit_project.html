@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Edit Project</h1>
+<form method="post">
+    <label for="name">Project Name</label>
+    <input type="text" id="name" name="name" value="{{ project.name }}" required>
+    <br>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" required>{{ project.description }}</textarea>
+    <br>
+    <label for="git_url">Git URL</label>
+    <input type="text" id="git_url" name="git_url" value="{{ project.git_url }}" required>
+    <br>
+    <label for="goals">Goals</label>
+    <textarea id="goals" name="goals">{{ project.goals }}</textarea>
+    <br>
+    <label for="objectives">Objectives</label>
+    <textarea id="objectives" name="objectives">{{ project.objectives }}</textarea>
+    <br>
+    <label for="features">Features</label>
+    <textarea id="features" name="features">{{ project.features }}</textarea>
+    <br>
+    <label for="steps">Steps</label>
+    <textarea id="steps" name="steps">{{ project.steps }}</textarea>
+    <br>
+    <button type="submit">Update Project</button>
+</form>
+<form method="post" action="{{ url_for('routes.delete_project', project_id=project.id) }}">
+    <button type="submit">Delete Project</button>
+</form>
+{% endblock %}

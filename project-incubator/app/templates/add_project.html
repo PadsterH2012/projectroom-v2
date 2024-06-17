@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Add New Project</h1>
+    <form method="post">
+        <div class="form-group">
+            <label for="name">Project Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="git_url">Git URL</label>
+            <input type="url" class="form-control" id="git_url" name="git_url" required>
+        </div>
+        <div class="form-group">
+            <label for="goals">Goals</label>
+            <textarea class="form-control" id="goals" name="goals"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="objectives">Objectives</label>
+            <textarea class="form-control" id="objectives" name="objectives"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="features">Features</label>
+            <textarea class="form-control" id="features" name="features"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="steps">Steps</label>
+            <textarea class="form-control" id="steps" name="steps"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Project</button>
+    </form>
+</div>
+{% endblock %}

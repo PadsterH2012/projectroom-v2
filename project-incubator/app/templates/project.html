@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ project.name }}</h1>
+    <p>{{ project.description }}</p>
+    <p><strong>Git URL:</strong> <a href="{{ project.git_url }}" target="_blank">{{ project.git_url }}</a></p>
+    <p><strong>Goals:</strong> {{ project.goals }}</p>
+    <p><strong>Objectives:</strong> {{ project.objectives }}</p>
+    <p><strong>Features:</strong> {{ project.features }}</p>
+    <p><strong>Steps:</strong> {{ project.steps }}</p>
+    <a href="{{ url_for('routes.edit_project', project_id=project.id) }}" class="btn btn-warning">Edit Project</a>
+    <form action="{{ url_for('routes.delete_project', project_id=project.id) }}" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-danger">Delete Project</button>
+    </form>
+    <a href="{{ url_for('routes.project_chat', project_id=project.id) }}" class="btn btn-primary mt-3">Go to Project Chat</a>
+</div>
+{% endblock %}

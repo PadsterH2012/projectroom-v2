@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Welcome to Project Incubator</h1>
+{% if current_user.is_authenticated %}
+    <p>Hello, {{ current_user.username }}!</p>
+{% endif %}
+{% endblock %}

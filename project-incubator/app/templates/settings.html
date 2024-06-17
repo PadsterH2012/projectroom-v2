@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Settings</h1>
+<form method="post">
+    {% for setting in settings %}
+        <label for="{{ setting.name }}">{{ setting.name }}</label>
+        <input type="text" id="{{ setting.name }}" name="{{ setting.name }}" value="{{ setting.value }}" required>
+        <br>
+    {% endfor %}
+    <button type="submit">Save Settings</button>
+</form>
+{% endblock %}
